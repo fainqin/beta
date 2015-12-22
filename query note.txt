@@ -1,0 +1,16 @@
+// retrieve the project whose ID is 1
+$project=Project::model()->findByPk(1);
+
+// P-227 (Lazy) retrieve the project's issues: a relational query is actually being performed behind the scenes here
+$issues=$project->issues;
+
+// P-228 (Eager Loading) retrieve all project AR instances along with their associated issue
+AR instances
+$projects = Project::model()->with('issues')->findAll();
+
+Comment::model()->with(array('issue'=>array('condition'=>'project_
+id='.$projectId)))->findAll();
+// P-228 the previous relational AR query would basically execute something similar to the following SQL statement:
+SELECT tbl_comment.*, tbl_issue.* FROM tbl_comment LEFT OUTER JOIN
+tbl_issue ON (tbl_comment.issue_id=tbl_issue.id) WHERE (tbl_issue.
+project_id=1)
